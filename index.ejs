@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" type="text/css"  href="/style/style.css">
+  <title>Pfadfinder Abenteuer</title>
+</head>
+<body>
+  <h1>Wilkommen bei dem Stamm von Galen Geocache Abenteuer</h1>
+  <p>Hier findest du eine Übersicht aller Teilnehnehmer und kannst dich selbst registrieren.</p>
+  
+  <table>        
+    <th>Name Des Rätsels</th>
+    <th>Lastname</th>
+    <% for(var i=0; i < data.length; i++) { %>
+       <tr>   
+
+         <td><%= data[i].name %></td>
+         <td><%= data[i].clues %></td>
+       </tr>
+    <% } %>
+    </table>
+ 
+</body>
+</html>
