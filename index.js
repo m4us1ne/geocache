@@ -24,15 +24,21 @@ app.get('/', function (req, res) {
 
 app.get('/stage', function (req,res){
   
-    stageNumber = req.query.n;
+    stageNumber = parseInt(req.query.n,10);
+    if(!Number.isInteger(stageNumber)){
+      return res.redirect("/");
+    }
+    const row = db.prepare('SELECT * FROM stages WHERE stageId = ?').get(stageNumber);
     secret = req.query.secret;  
     number = secrets.indexOf(secret);
     if(number==-1){
       solved = false;
+    }else{
+      solved = true;
     }
-    solved = true;
 
-    return res.render("stage", { stageNumber: stageNumber, solved: solved });
+
+    return res.render("stage", { stageNumber: stageNumber, solved: solved, stageName:row.name });
 
 });
 

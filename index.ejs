@@ -10,12 +10,11 @@
   
   <table>        
     <th>Name Des Rätsels</th>
-    <th>Lastname</th>
     <% for(var i=0; i < data.length; i++) { %>
        <tr>   
 
-         <td><%= data[i].name %></td>
-         <td><%= data[i].clues %></td>
+         <td>
+          <a href=/stage?n=<%= i %>><%= data[i].name %></a></td>
        </tr>
     <% } %>
     </table>
