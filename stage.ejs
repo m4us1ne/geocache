@@ -1,16 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Pfadfinder Abenteuer</title>
-</head>
-<body>
-  <h1>Wilkommen bei dem Stamm von Galen Geocache Abenteuer</h1>
-  <p>Stagemummer: <%= stageNumber %></p>
+<%- include("header.ejs") %>
+<main>
+  <div class="jumbotron">
   <p>Stagename: <%= stageName %></p>
   <p>Gelöst: <%= solved %></p>
-   
+</div>
+</main>
 </body>
 </html>
