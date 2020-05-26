@@ -30,16 +30,12 @@ app.get('/stage', function (req,res){
       return res.redirect("/");
     }
     const row = db.prepare('SELECT * FROM stages WHERE stageId = ?').get(stageNumber);
-    secret = req.query.secret;      return res.render("index", {stagedata:stagedata, userdata:userdata});
-    number = secrets.indexOf(secret);
-    if(number==-1){
-      solved = false;
-    }else{
-      solved = true;
-    }
+    secret = req.query.secret;
+    const usersstmt = db.prepare('SELECT * FROM users');
+    users = usersstmt.all();
 
 
-    return res.render("stage", { stageNumber: stageNumber, solved: solved, stageName:row.name });
+    return res.render("stage", { stageNumber: stageNumber, stageName:row.name, users:users });
 
 });
 
@@ -54,17 +50,17 @@ app.get('/secret', function (req,res){
 });
 
 app.get('/register', function (req,res){
-  const stmt = db.prepare('INSERT INTO users VALUES (null, @username)');
+  const stmt = db.prepare('INSERT INTO users (username) VALUES (?)');
   try {
-    stmt.run({username:req.query.name});
+    stmt.run(req.query.name);
   } catch (err) {
     //duplicate User TODO
-    console.log("Duplicate Entryuesrs")
+    console.log("Duplicate Entryusers")
   }
 
   return res.redirect("/");
 });
 
-app.listen(3000, function () {
-    console.log("Listening on port 3000");
+app.listen(80, function () {
+    console.log("Listening on port 80");
   });

@@ -2,7 +2,23 @@
 <main>
   <div class="jumbotron">
   <p>Stagename: <%= stageName %></p>
-  <p>Gelöst: <%= solved %></p>
+  <p>Rätsel: <%= stageName %></p>
+
+
+</div>
+<div class="jumbotron">
+  <h4><b>Lösung</b></h4>
+  <form id="myForm" action="/solve">
+    <select id="name" name="name">
+      <% for(var i=0; i < users.length; i++) { %> 
+          <option value="<%= users[i].username %>"><%= users[i].username %></option>
+     <% } %>
+    </select>
+    <input type="text" name="secret" value="" /><br><br>
+    <input type="hidden" name="n" value=" <%= stageNumber %>"/>
+
+  <input type="submit" value="Abschicken"/><br><br><hr>
+</form>
 </div>
 </main>
 </body>
