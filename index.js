@@ -17,9 +17,10 @@ app.use(express.static('public'));
 
 app.get('/', function (req, res) {
   const stmt = db.prepare("Select * from stages");
-  data = stmt.all();
-  
-    return res.render("index", {data:data});
+  stagedata = stmt.all();
+  const userstmt = db.prepare("SELECT users.username, count(records.userID) as points from users left join records on (users.userID = records.userID) group by users.userID order by points DESC");
+  userdata = userstmt.all();  
+    return res.render("index", {stagedata:stagedata, userdata:userdata});
   });
 
 app.get('/stage', function (req,res){
@@ -29,7 +30,7 @@ app.get('/stage', function (req,res){
       return res.redirect("/");
     }
     const row = db.prepare('SELECT * FROM stages WHERE stageId = ?').get(stageNumber);
-    secret = req.query.secret;  
+    secret = req.query.secret;      return res.render("index", {stagedata:stagedata, userdata:userdata});
     number = secrets.indexOf(secret);
     if(number==-1){
       solved = false;
@@ -50,6 +51,18 @@ app.get('/secret', function (req,res){
     return res.redirect("/");
   }
   return res.redirect("/stage?n="+number+"&secret="+req.query.secret);
+});
+
+app.get('/register', function (req,res){
+  const stmt = db.prepare('INSERT INTO users VALUES (null, @username)');
+  try {
+    stmt.run({username:req.query.name});
+  } catch (err) {
+    //duplicate User TODO
+    console.log("Duplicate Entryuesrs")
+  }
+
+  return res.redirect("/");
 });
 
 app.listen(3000, function () {

@@ -3,15 +3,36 @@
     <div class="jumbotron">
   <table>        
     <th>Rätsel Übersicht</th>
-    <% for(var i=0; i < data.length; i++) { %>
+    <% for(var i=0; i < stagedata.length; i++) { %>
        <tr>   
-
          <td>
-          <a href=/stage?n=<%= i %>><%= data[i].name %></a></td>
+          <a href=/stage?n=<%= i %>><%= stagedata[i].name %></a></td>
        </tr>
     <% } %>
     </table>
   </div>
+    <div class="jumbotron">
+      <h4><b>Registrierung</b></h4>
+      <form id="myForm" action="/register">
+        
+          Name: <input type="text" name="name" value="" /><br><br>
+
+          <input type="submit" value="Registrieren"/><br><br><hr>
+  </form>
+  </div>
+  <div class="jumbotron">
+    <table>  
+      <!-- todo reihenfolge Rangliste       -->
+      <th>Rangliste</th>
+      <% for(var i=0; i < userdata.length; i++) { %>
+         <tr>   
+           <td><%= userdata[i].username %></td>
+           <td><%= userdata[i].points %></td>
+         </tr>
+      <% } %>
+      </table>
+</div>
+
 </main>
 </body>
 </html>
