@@ -2,16 +2,19 @@ version: "3.3"
 
 services:
   traefik:
-    image: "traefik:v2.0.0"
+    image: "traefik:v2.2"
     command:
+      - --log.level=DEBUG
       - --entrypoints.web.address=:80
       - --entrypoints.websecure.address=:443
       - --providers.docker
       - --api
-      - --certificatesresolvers.leresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
-      - --certificatesresolvers.leresolver.acme.email=lukas@m4us.de
-      - --certificatesresolvers.leresolver.acme.storage=/acme.json
-      - --certificatesresolvers.leresolver.acme.tlschallenge=true
+#      - --certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
+      - "--certificatesresolvers.myresolver.acme.httpchallenge=true"
+      - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
+      #- "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+      - "--certificatesresolvers.myresolver.acme.email=lukas@m4us.de"
+      - "--certificatesresolvers.myresolver.acme.storage=/acme.json"
     ports:
       - "80:80"
       - "443:443"
