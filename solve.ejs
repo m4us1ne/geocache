@@ -1,11 +1,5 @@
 <%- include("header.ejs") %>
 <main>
-  <div class="jumbotron">
-  <p>Stagename: <%= stageName %></p>
-  <p>Rätsel: <%= stageName %></p>
-
-
-</div>
 <div class="jumbotron">
   <h4><b>Lösung</b></h4>
   <form id="myForm" action="/solve">
@@ -14,23 +8,11 @@
           <option value="<%= users[i].username %>"><%= users[i].username %></option>
      <% } %>
     </select>
-    <input type="text" name="secret" value="" /><br><br>
+    <input type="hidden" name="secret" value="<%= secret %>" /><br><br>
     <input type="hidden" name="n" value=" <%= stageNumber %>"/>
 
   <input type="submit" value="Abschicken"/><br><br><hr>
 </form>
-</div>
-<div class="jumbotron">
-  <table>  
-    <!-- todo reihenfolge Rangliste       -->
-    <th>Rangliste</th>
-    <% for(var i=0; i < usersolved.length; i++) { %>
-       <tr>   
-         <td><%= usersolved[i].username %></td>
-         <td><%= usersolved[i].sqltime %></td>
-       </tr>
-    <% } %>
-    </table>
 </div>
 </main>
 </body>

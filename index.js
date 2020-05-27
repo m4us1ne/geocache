@@ -4,7 +4,7 @@ const cookieParser = require('cookie-parser');
 const morgan = require('morgan')
 const db = require('better-sqlite3')('./db/geocache.db');
 
-let secrets = ["1JA-9NS-3NI","IS8-XZ1-ON9","CM0-9WW-R01","CSK-IV4-03M","4GS-SVT-QND","H9I-DZK-YJN","LRM-6A9-USK","O3H-2TA-T8R","WR3-8KZ-AK7","909-4HN-EUF","K8Q-XV2-6W6","Z9Q-M82-L2Q","4ES-9OF-JRD","2ME-1MZ-1HC","DN0-9VR-1AJ"];
+//let secrets = ["1JA-9NS-3NI","IS8-XZ1-ON9","CM0-9WW-R01","CSK-IV4-03M","4GS-SVT-QND","H9I-DZK-YJN","LRM-6A9-USK","O3H-2TA-T8R","WR3-8KZ-AK7","909-4HN-EUF","K8Q-XV2-6W6","Z9Q-M82-L2Q","4ES-9OF-JRD","2ME-1MZ-1HC","DN0-9VR-1AJ"];
 const app = express();
 
 app.use(morgan('short'));
@@ -33,20 +33,46 @@ app.get('/stage', function (req,res){
     secret = req.query.secret;
     const usersstmt = db.prepare('SELECT * FROM users');
     users = usersstmt.all();
+    const usersolved = db.prepare("SELECT users.username,records.sqltime from users left join records on (users.userID = records.userID) WHERE records.userID IS NOT NULL AND records.stageID = ? ORDER BY records.sqltime ASC").all(stageNumber); 
 
 
-    return res.render("stage", { stageNumber: stageNumber, stageName:row.name, users:users });
+    return res.render("stage", { stageNumber: stageNumber, stageName:row.name, users:users, usersolved:usersolved});
 
 });
 
 
 app.get('/secret', function (req,res){
+  const result= db.prepare('SELECT * FROM stages WHERE secret = ?').get(req.query.secret);
+  stageNumber = result.stageID;
   secret = req.query.secret;
-  number = secrets.indexOf(secret);
-  if(number==-1){
+  const usersstmt = db.prepare('SELECT * FROM users');
+  users = usersstmt.all();
+  return res.render("solve",{stageNumber:stageNumber, secret:secret ,users:users });
+});
+
+
+app.get('/solve', function (req,res){
+  if(req.query.n && req.query.secret && req.query.name){
+    number = req.query.n;
+    checkSecret = db.prepare('SELECT stageID FROM stages WHERE secret= ? AND stageID= ?').get(req.query.secret,req.query.n);
+    if(checkSecret  == null){
+      return res.redirect("/");
+    }
+    users = db.prepare('SELECT * FROM users WHERE username= ?').get(req.query.name);
+    const stmt = db.prepare('INSERT INTO records (userID,stageID) VALUES (?,?)');
+    try {
+      stmt.run(users.userID,checkSecret.stageID);
+    } catch (err) {
+      //duplicate User TODO
+      console.log("Duplicate Record")
+    }
+
+    console.log(req.query.name +" solved rätsel nr. "+ req.query.n)
+  }else{
     return res.redirect("/");
   }
-  return res.redirect("/stage?n="+number+"&secret="+req.query.secret);
+
+  return res.redirect("/stage?n="+number);
 });
 
 app.get('/register', function (req,res){
