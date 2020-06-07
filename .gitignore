@@ -4,3 +4,4 @@ acme.json
 public/*.JPG
 
 public/*.png
+db/*.db
