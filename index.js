@@ -4,7 +4,9 @@ const cookieParser = require('cookie-parser');
 const morgan = require('morgan')
 const db = require('better-sqlite3')('./db/geocache.db');
 
-//let secrets = ["1JA-9NS-3NI","IS8-XZ1-ON9","CM0-9WW-R01","CSK-IV4-03M","4GS-SVT-QND","H9I-DZK-YJN","LRM-6A9-USK","O3H-2TA-T8R","WR3-8KZ-AK7","909-4HN-EUF","K8Q-XV2-6W6","Z9Q-M82-L2Q","4ES-9OF-JRD","2ME-1MZ-1HC","DN0-9VR-1AJ"];
+let secrets = ["1JA-9NS-3NI","IS8-XZ1-ON9","CM0-9WW-R01","CSK-IV4-03M","4GS-SVT-QND","H9I-DZK-YJN","LRM-6A9-USK","O3H-2TA-T8R","WR3-8KZ-AK7","909-4HN-EUF","K8Q-XV2-6W6","Z9Q-M82-L2Q","4ES-9OF-JRD","2ME-1MZ-1HC","DN0-9VR-1AJ"];
+toprint = [];
+
 const app = express();
 
 app.use(morgan('short'));
@@ -34,9 +36,9 @@ app.get('/stage', function (req,res){
     const usersstmt = db.prepare('SELECT * FROM users');
     users = usersstmt.all();
     const usersolved = db.prepare("SELECT users.username,records.sqltime from users left join records on (users.userID = records.userID) WHERE records.userID IS NOT NULL AND records.stageID = ? ORDER BY records.sqltime ASC").all(stageNumber); 
+    console.log(row.clues);
 
-
-    return res.render("stage", { stageNumber: stageNumber, stageName:row.name, users:users, usersolved:usersolved});
+    return res.render("stage", { stageNumber: stageNumber, stageName:row.name, stageClue:row.clues.replace(/\n/g,"<br>"), users:users, usersolved:usersolved});
 
 });
 
