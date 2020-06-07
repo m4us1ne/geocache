@@ -1,3 +1,6 @@
 node_modules
 letsencrypt
 acme.json
+public/*.JPG
+
+public/*.png

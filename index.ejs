@@ -1,8 +1,29 @@
 <%- include("header.ejs") %>
   <main>
     <div class="jumbotron">
+
+      <b>Liebe Pfadfinder,</b><br>
+
+willkommen zu unserem Geocache-Spiel. Wir haben in der Nordweststadt einige kleine Container mit kleinen Geschenken versteckt. Damit ihr die finden könnt müsst ihr zuerst ein Rätsel lösen. Meistens kriegt ihr dann Koordinaten in der Form 49.023154, 8.366405. Die Koordinaten beschreiben den Ort, wo die Dose versteckt ist bis auf wenige Meter genau, ihr könnt sie zum Beispiel in Google Maps anschauen. Danach könnt ihr dort hingehen und die Dose suchen, am besten nehmt ihr ein Handy mit um vor Ort eure Position zu kontrollieren.
+<br><b>Damit wir alle lange Spaß an dem Spiel haben, beachtet bitte folgende Regeln:</b>
+<br><br>
+
+      <ul>
+        <li>Bevor ihr euren ersten Geocache sucht, müsst ihr euch auf der Webseite registrieren. Dazu müsst ihr nur euren Namen oder einen Spitznamen angeben. Bitte benutzt keine Spitznamen, die andere Leute beleidigen könnten.
+        </li><li>Wenn ihr einen Geocache findet, scannt den QR-Code auf der Dose mit eurem Handy oder gebt den Lösungscode(z.B: AB1-2CD-E3F) auf der dazugehörenden Rätselseite ein. Ihr könnt dann euren Namen aus einer Liste auswählen.
+        </li><li>Wenn ihr möchtet nehmt euch ein Geschenk aus der Dose. Bitte nehmt nur eins, damit auch die anderen Finder noch etwas kriegen.
+        </li><li>Versteckt die Dose wieder genau an der Stelle, wo ihr sie gefunden habt. Wenn ihr sie woanders versteckt stimmen die Koordinaten nicht mehr und niemand anders kann sie mehr finden.
+        </li><li>Auf der Website könnt ihr sehen, wer bisher welches Rätsel gefunden hat und wer bisher die Meisten gefunden hat.
+        </li><li>Wenn etwas nicht funktioniert oder ihr noch Fragen habt schickt am besten den Pfadileitern eine Mail unter pfadis@dpsg-konrad.de
+        </li>
+      </ul> 
+
+    </div>
+
+
+    <div class="jumbotron">
   <table>        
-    <th>Rätsel Übersicht</th>
+    <th><h4><b> Übersicht</b></h4></th>
     <% for(var i=0; i < stagedata.length; i++) { %>
        <tr>   
          <td>
@@ -23,7 +44,8 @@
   <div class="jumbotron">
     <table>  
       <!-- todo reihenfolge Rangliste       -->
-      <th>Rangliste</th>
+      <th><h4><b>Rangliste
+      </h4></b></th>
       <% for(var i=0; i < userdata.length; i++) { %>
          <tr>   
            <td><%= userdata[i].username %></td>
